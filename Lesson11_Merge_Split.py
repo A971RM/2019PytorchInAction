@@ -26,7 +26,7 @@ import torch
 
 
 def test_cat():
-    print("In test_cat",)
+    print("In test_cat", )
     # Statistics about scores
 
     # [class1-4, students, scores]
@@ -38,27 +38,27 @@ def test_cat():
     class19 = torch.cat(tensors=(class14, class59), dim=0)
     print(class19.shape)
 
-    a1 = torch.rand(size=[4,3,32,32])
-    a2 = torch.rand(size=[5,3,32,32])
-    a12=torch.cat(tensors=[a1, a2], dim=0)
+    a1 = torch.rand(size=[4, 3, 32, 32])
+    a2 = torch.rand(size=[5, 3, 32, 32])
+    a12 = torch.cat(tensors=[a1, a2], dim=0)
     print(a12.shape)
 
-    a2 = torch.rand(size=[4,1,32,32])
-    a12=torch.cat(tensors=[a1, a2], dim=1)
+    a2 = torch.rand(size=[4, 1, 32, 32])
+    a12 = torch.cat(tensors=[a1, a2], dim=1)
     print(a12.shape)
 
-    a1 = torch.rand(size=[4,3,16,32])
-    a2 = torch.rand(size=[4,3,16,32])
-    a12=torch.cat(tensors=[a1, a2], dim=2)
+    a1 = torch.rand(size=[4, 3, 16, 32])
+    a2 = torch.rand(size=[4, 3, 16, 32])
+    a12 = torch.cat(tensors=[a1, a2], dim=2)
     print(a12.shape)
-    print("Out test_cat",)
+    print("Out test_cat", )
 
 
 def test_stack():
     print("IN test_stack")
     print("Create new dim")
-    a1 = torch.rand(size=[4,3,16,32])
-    a2 = torch.rand(size=[4,3,16,32])
+    a1 = torch.rand(size=[4, 3, 16, 32])
+    a2 = torch.rand(size=[4, 3, 16, 32])
     a12cat = torch.cat(tensors=[a1, a2], dim=2)
     print(a12cat.shape)
     a12stack = torch.stack(tensors=[a1, a2, a2, a1, a1], dim=2)
@@ -79,13 +79,14 @@ def test_stack():
 
     print("OUT test_stack")
 
+
 def test_split():
     print("IN test_split")
     a = torch.rand(32, 8)
     b = torch.rand(32, 8)
     abstack = torch.stack(tensors=(a, b, a, b), dim=0)
     print(a.shape, b.shape, abstack.shape)
-    aa, bb = abstack.split(split_size=3,dim=0)
+    aa, bb = abstack.split(split_size=3, dim=0)
     print(aa.shape, bb.shape)
     print("OUT test_split")
 
@@ -94,11 +95,12 @@ def test_chunk():
     print("IN test_chunk")
     a = torch.rand(32, 8)
     b = torch.rand(32, 8)
-    abstack = torch.stack(tensors=(a, b, a, b,a,b,a), dim=0)
+    abstack = torch.stack(tensors=(a, b, a, b, a, b, a), dim=0)
     print(a.shape, b.shape, abstack.shape)
-    aa, bb, cc, dd = abstack.chunk(chunks=4,dim=0)
+    aa, bb, cc, dd = abstack.chunk(chunks=4, dim=0)
     print(aa.shape, bb.shape)
     print("OUT test_chunk")
+
 
 if __name__ == "__main__":
     test_cat()
@@ -108,7 +110,7 @@ if __name__ == "__main__":
 
     a = torch.rand(32, 8)
     b = torch.rand(32, 8)
-    abstack = torch.stack(tensors=(a, b, a, b,a,b), dim=0)
+    abstack = torch.stack(tensors=(a, b, a, b, a, b), dim=0)
     print("--------------")
     print(abstack.shape)
     itr = 0

@@ -39,7 +39,6 @@ def forward(x):
     x = x @ w2.t() + b2
     x = F.relu(x)
     x = x @ w3.t() + b3
-    # x = F.relu(x)
     return x
 
 
@@ -57,12 +56,6 @@ for epoch in range(epochs):
         loss.backward()
         optimizer.step()
 
-        # if batch_idx % 100:
-        #     print('Train Epoch:{} [{}/{} ({:.5f})]\tLoss: {:.6f}'.format(
-        #         epoch, batch_idx * len(data), len(train_loder.dataset),
-        #         100. * batch_idx / len(train_loder), loss.item()
-        #     ))
-
     test_loss = 0.
     correct = 0.
 
@@ -73,7 +66,6 @@ for epoch in range(epochs):
         loss = criteon(logits, ttarget)
         test_loss += loss.item()
         pred = torch.argmax(logits, dim=1)
-        pred = logits.data.max(1)[1]
         correct += pred.eq(ttarget).sum()
     test_loss /= len(ttest_loader.dataset)
     print("Test Loss: {:.4f}, Accury:{:.4f}".format(test_loss, 100. * correct / len(ttest_loader.dataset)))

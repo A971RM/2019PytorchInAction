@@ -1,9 +1,14 @@
+import time
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
+
+tik = time.time()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
 
 x = torch.zeros(size=(1, 784), dtype=torch.float)
 nn.init.kaiming_uniform_(x)
@@ -51,18 +56,19 @@ class MLP(nn.Module):
         return x
 
 
-net = MLP()
+net = MLP().to(device)
 for param in net.parameters():
     if param.dim() > 1:
         nn.init.kaiming_normal_(param)
 learning_rate = 0.01
 optimizer = optim.SGD(net.parameters(), lr=learning_rate)
-criteon = nn.CrossEntropyLoss()
+criteon = nn.CrossEntropyLoss().to(device)
 epochs = 10
 
 for epoch in range(epochs):
     for idx, (data, target) in enumerate(train_loader):
         data = data.view(-1, 28 ** 2)
+        data, target = data.to(device), target.to(device)
 
         logits = net(data)
         loss = criteon(logits, target)
@@ -75,8 +81,11 @@ for epoch in range(epochs):
     correct = 0.
     for data, target in test_loader:
         data = data.view(-1, 28 ** 2)
+        data, target = data.to(device), target.to(device)
         logits = net(data)
         test_loss += criteon(logits, target).item()
         pred = torch.argmax(logits, dim=1)
         correct += (pred == target).sum().item()
     print("epch {}, Loss {:4f}, Correct {:4f}".format(epoch, test_loss, correct * 100. / len(test_loader.dataset)))
+
+print("LAST:", time.time() - tik)
